@@ -1,0 +1,22 @@
+[
+  {"timestamp": "2024-01-15T08:23:11Z", "event_type": "login_failure", "user": "admin", "ip": "192.168.1.105", "country": "FR", "attempts": 1, "service": "ssh"},
+  {"timestamp": "2024-01-15T08:23:14Z", "event_type": "login_failure", "user": "admin", "ip": "192.168.1.105", "country": "FR", "attempts": 2, "service": "ssh"},
+  {"timestamp": "2024-01-15T08:23:18Z", "event_type": "login_failure", "user": "admin", "ip": "192.168.1.105", "country": "FR", "attempts": 3, "service": "ssh"},
+  {"timestamp": "2024-01-15T08:23:22Z", "event_type": "login_failure", "user": "admin", "ip": "192.168.1.105", "country": "FR", "attempts": 4, "service": "ssh"},
+  {"timestamp": "2024-01-15T08:23:25Z", "event_type": "login_failure", "user": "admin", "ip": "192.168.1.105", "country": "FR", "attempts": 5, "service": "ssh"},
+  {"timestamp": "2024-01-15T08:23:29Z", "event_type": "login_success", "user": "admin", "ip": "192.168.1.105", "country": "FR", "attempts": 6, "service": "ssh"},
+  {"timestamp": "2024-01-15T09:01:45Z", "event_type": "login_success", "user": "alice", "ip": "203.0.113.42", "country": "NZ", "attempts": 1, "service": "vpn"},
+  {"timestamp": "2024-01-15T09:02:00Z", "event_type": "privilege_escalation", "user": "alice", "ip": "203.0.113.42", "country": "NZ", "attempts": 1, "service": "sudo"},
+  {"timestamp": "2024-01-15T09:05:10Z", "event_type": "data_exfiltration", "user": "alice", "ip": "203.0.113.42", "country": "NZ", "bytes_out": 524288000, "service": "ftp"},
+  {"timestamp": "2024-01-15T10:15:33Z", "event_type": "port_scan", "user": "unknown", "ip": "45.33.32.156", "country": "US", "ports_scanned": 1024, "service": "network"},
+  {"timestamp": "2024-01-15T10:16:01Z", "event_type": "port_scan", "user": "unknown", "ip": "45.33.32.156", "country": "US", "ports_scanned": 2048, "service": "network"},
+  {"timestamp": "2024-01-15T11:00:00Z", "event_type": "login_success", "user": "bob", "ip": "10.0.0.5", "country": "FR", "attempts": 1, "service": "web"},
+  {"timestamp": "2024-01-15T11:05:22Z", "event_type": "login_success", "user": "bob", "ip": "10.0.0.5", "country": "FR", "attempts": 1, "service": "web"},
+  {"timestamp": "2024-01-15T11:30:44Z", "event_type": "malware_detected", "user": "system", "ip": "10.0.0.8", "country": "FR", "file": "invoice.exe", "service": "antivirus"},
+  {"timestamp": "2024-01-15T11:31:00Z", "event_type": "malware_detected", "user": "system", "ip": "10.0.0.8", "country": "FR", "file": "update.bat", "service": "antivirus"},
+  {"timestamp": "2024-01-15T12:00:00Z", "event_type": "login_failure", "user": "root", "ip": "198.51.100.23", "country": "CN", "attempts": 1, "service": "ssh"},
+  {"timestamp": "2024-01-15T12:00:02Z", "event_type": "login_failure", "user": "root", "ip": "198.51.100.23", "country": "CN", "attempts": 2, "service": "ssh"},
+  {"timestamp": "2024-01-15T12:00:04Z", "event_type": "login_failure", "user": "root", "ip": "198.51.100.23", "country": "CN", "attempts": 3, "service": "ssh"},
+  {"timestamp": "2024-01-15T13:45:00Z", "event_type": "config_change", "user": "devops", "ip": "10.0.0.12", "country": "FR", "target": "firewall_rules", "service": "admin"},
+  {"timestamp": "2024-01-15T14:20:11Z", "event_type": "login_success", "user": "charlie", "ip": "10.0.0.15", "country": "FR", "attempts": 1, "service": "web"}
+]

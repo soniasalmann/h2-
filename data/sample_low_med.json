@@ -1,0 +1,4 @@
+[
+  {"timestamp": "2026-10-04T08:15:00Z", "event_type": "config_change", "user": "devops_alex", "ip": "10.0.4.15", "country": "US", "service": "admin"},
+  {"timestamp": "2026-10-04T08:20:00Z", "event_type": "port_scan", "user": "scanner_probe", "ip": "198.51.100.88", "ports_scanned": 600, "country": "US", "service": "network"}
+]
