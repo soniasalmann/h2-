@@ -5,10 +5,17 @@ Gradio Multi-Agent Security Dashboard (SOAR Console)
 
 import json
 import os
+import sys
 import uuid
 import traceback
 import datetime
 from pathlib import Path
+
+if hasattr(sys.stdout, "reconfigure"):
+    sys.stdout.reconfigure(encoding="utf-8")
+if hasattr(sys.stderr, "reconfigure"):
+    sys.stderr.reconfigure(encoding="utf-8")
+
 import gradio as gr
 
 from pipeline import build_graph
@@ -300,7 +307,7 @@ body, .gradio-container {
 }
 """
 
-with gr.Blocks(title="CyberGuard AI — Autonomous Security Incident Response", css=custom_css) as demo:
+with gr.Blocks(title="CyberGuard AI — Autonomous Security Incident Response") as demo:
     gr.HTML("""
 <div class="header-banner">
     <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;">
@@ -451,4 +458,14 @@ with gr.Blocks(title="CyberGuard AI — Autonomous Security Incident Response", 
     )
 
 if __name__ == "__main__":
-    demo.launch()
+    share_enabled = os.environ.get("GRADIO_SHARE", "true").lower() in ("true", "1", "yes")
+    print(f"Launching CyberGuard SOC Console (Public Share: {share_enabled})...", flush=True)
+    res = demo.launch(share=share_enabled, css=custom_css, inbrowser=False)
+    # Gradio returns (app, local_url, share_url) or sets demo.share_url
+    share_link = getattr(demo, "share_url", None)
+    if isinstance(res, tuple) and len(res) >= 3:
+        share_link = res[2] or share_link
+    with open("share_url.txt", "w", encoding="utf-8") as f:
+        f.write(f"PUBLIC_URL={share_link}\nLOCAL_URL=http://127.0.0.1:7860\n")
+    print(f"CYBERGUARD_PUBLIC_URL={share_link}", flush=True)
+

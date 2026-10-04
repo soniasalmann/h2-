@@ -9,3 +9,5 @@ outputs/
 *.md
 !README.md
 .DS_Store
+share_url.txt
+.gradio/

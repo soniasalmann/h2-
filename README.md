@@ -1,11 +1,15 @@
 # 🛡️ CyberGuard AI: Autonomous Security Incident Response
 
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-CyberGuard%20Console-brightgreen?style=for-the-badge&logo=gradio)](https://d733dde6a587947504.gradio.live)
 [![Python 3.12](https://img.shields.io/badge/Python-3.12-blue.svg)](https://www.python.org/)
 [![LangGraph](https://img.shields.io/badge/LangGraph-Multi--Agent-orange.svg)](https://github.com/langchain-ai/langgraph)
 [![Ollama](https://img.shields.io/badge/Ollama-Local%20LLM-black.svg)](https://ollama.com)
 [![Gradio](https://img.shields.io/badge/Gradio-SOC%20Console-orange.svg)](https://gradio.app)
 [![MITRE ATT&CK](https://img.shields.io/badge/Framework-MITRE%20ATT%26CK-red.svg)](https://attack.mitre.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
+
+> 🌐 **Live Working Application**: **[https://d733dde6a587947504.gradio.live](https://d733dde6a587947504.gradio.live)**  
+> *(Click to access the full interactive CyberGuard AI SOC Console — zero installation required)*
 
 > **Autonomous Multi-Agent SOAR Platform**  
 > *From Telemetry Detection to Autonomous Network Containment in Seconds.*
