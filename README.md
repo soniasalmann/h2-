@@ -130,6 +130,10 @@ Open **`http://localhost:7860`** in your browser.
 ### 4. Run Tests
 
 ```bash
+# Run unit test suite (schema validation, heuristics, and playbooks)
+python -m unittest discover -s tests -v
+
+# Run multi-scenario pipeline integration verification
 python test_pipeline.py
 ```
 
@@ -144,7 +148,10 @@ h2-/
 ├── app.py                  # Gradio SOC console interface
 ├── pipeline.py             # LangGraph state graph & conditional router
 ├── requirements.txt        # Python dependencies
-├── test_pipeline.py        # Automated test suite
+├── test_pipeline.py        # Multi-scenario integration pipeline tests
+├── tests/                  # Automated unit test suite
+│   ├── __init__.py
+│   └── test_agents.py      # Unit tests for Ingest, Detect, Classify, & Containment
 ├── agents/
 │   ├── state.py            # Shared AgentState TypedDict schema
 │   └── nodes.py            # Ingest, Detect, Classify, Response, and Report agents
