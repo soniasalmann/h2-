@@ -95,6 +95,13 @@ Traditional Security Operations Centers (SOCs) face alert fatigue from high-volu
 
 ### 2. Setup & Installation
 
+#### Option A: Quick Run with Docker (Recommended)
+```bash
+docker compose up --build
+```
+Open **`http://localhost:7860`** in your browser.
+
+#### Option B: Standard Python Environment
 ```bash
 # Clone the repository
 git clone https://github.com/soniasalmann/h2-.git
@@ -132,6 +139,8 @@ python test_pipeline.py
 
 ```
 h2-/
+├── Dockerfile              # Container definition (non-root security compliance)
+├── docker-compose.yml      # Single-command local container orchestration
 ├── app.py                  # Gradio SOC console interface
 ├── pipeline.py             # LangGraph state graph & conditional router
 ├── requirements.txt        # Python dependencies
