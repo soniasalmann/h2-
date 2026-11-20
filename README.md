@@ -1,135 +1,106 @@
-# 🛡️ CyberGuard AI: Autonomous Security Incident Response
+# 🛡️ CyberGuard AI: Multi-Agent SOC Simulation Lab
 
-[![Live Demo](https://img.shields.io/badge/Live%20Demo-CyberGuard%20Console-brightgreen?style=for-the-badge&logo=gradio)](https://d733dde6a587947504.gradio.live)
-[![Python 3.12](https://img.shields.io/badge/Python-3.12-blue.svg)](https://www.python.org/)
-[![LangGraph](https://img.shields.io/badge/LangGraph-Multi--Agent-orange.svg)](https://github.com/langchain-ai/langgraph)
-[![Ollama](https://img.shields.io/badge/Ollama-Local%20LLM-black.svg)](https://ollama.com)
-[![Gradio](https://img.shields.io/badge/Gradio-SOC%20Console-orange.svg)](https://gradio.app)
+[![Python 3.10+](https://img.shields.io/badge/Python-3.10%2B-blue.svg)](https://www.python.org/)
+[![LangGraph](https://img.shields.io/badge/Orchestration-LangGraph-orange.svg)](https://github.com/langchain-ai/langgraph)
 [![MITRE ATT&CK](https://img.shields.io/badge/Framework-MITRE%20ATT%26CK-red.svg)](https://attack.mitre.org/)
+[![Gradio](https://img.shields.io/badge/UI-Gradio-blueviolet.svg)](https://gradio.app)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
-> 🌐 **Live Working Application**: **[https://d733dde6a587947504.gradio.live](https://d733dde6a587947504.gradio.live)**  
-> *(Click to access the full interactive CyberGuard AI SOC Console — zero installation required)*
-
-> **Autonomous Multi-Agent SOAR Platform**  
-> *From Telemetry Detection to Autonomous Network Containment in Seconds.*
+> **Notice**: This project is built for **educational, learning, and practice purposes**. It provides a safe simulation environment demonstrating how multi-agent state machines can assist SOC analysts with log triage, threat classification, and response script formulation. Containment directives are generated for **demonstration/review only** and are not executed against production systems.
 
 ---
 
-## 💡 The Problem: SOC Alert Fatigue & Lagging MTTC
+## 📌 Overview
 
-Traditional Security Operations Centers (SOCs) are overwhelmed by thousands of disconnected security alerts every day. Analysts spend hours triaging logs, cross-referencing MITRE ATT&CK tactics, and manually writing remediation scripts. By the time containment actions are authorized, attackers have already escalated privileges and exfiltrated sensitive data.
+Traditional Security Operations Centers (SOCs) face alert fatigue from high-volume security logs. **CyberGuard AI** is a prototype AI-assisted SOAR workflow that automates Tier-1 incident triage:
 
-**CyberGuard AI** changes the paradigm from **passive detection** to **autonomous security incident response (SOAR)**. Using a multi-agent state graph orchestrated with **LangGraph**, it autonomously parses telemetry, correlates threats, assesses risk severity, and—when critical thresholds are breached—instantly synthesizes and executes targeted containment directives across operating systems and cloud environments.
+1. **Ingest & Validate**: Sanitizes JSON telemetry and validates schema consistency.
+2. **Detect**: Correlates events to identify attack patterns (e.g., brute-force spikes, credential stuffing).
+3. **Classify**: Assigns MITRE ATT&CK technique IDs and computes composite threat risk scores (0–100).
+4. **Conditional Routing**:
+   - `LOW / MEDIUM`: Directly summarized into reports without disrupting network configurations.
+   - `HIGH / CRITICAL`: Triggers mitigation playbook generation for rapid response review.
+5. **Report & Containment**: Generates an incident summary via local LLM (Ollama) or deterministic fallback, alongside copy-ready containment commands.
 
 ---
 
-## 🏗️ Architecture & Dynamic Severity Branching
-
-CyberGuard AI introduces **dynamic severity-based routing** to balance operational uptime with aggressive threat neutralization:
+## 🏗️ Architecture
 
 ```
-                     Security Logs (JSON / Live Telemetry)
-                                       │
-                                 [Ingest Agent]
-                            (Schema Hygiene & Validation)
-                                       │
-                                 [Detect Agent]
-                            (Heuristics & Signatures)
-                                       │
-                                [Classify Agent]
-                           (MITRE ATT&CK & Severity)
-                                       │
-                           Severity Decision Router
-                                       │
-                   ┌───────────────────┴───────────────────┐
-                   ▼                                       ▼
-          [ LOW / MED Threats ]                 [ CRITICAL / HIGH Threats ]
-                   │                                       │
-                   │                                       ▼
-                   │                                [Response Agent]
-                   │                            (Autonomous SOAR Directives)
-                   │                            • iptables & Firewall Rule Gen
-                   │                            • Endpoint Host Quarantine
-                   │                            • Session Revocation & Lockout
-                   │                                       │
-                   └───────────────────┬───────────────────┘
-                                       │
-                                       ▼
-                                 [Report Agent]
-                         (Executive & Tactical Report)
-                                       │
-                                       ▼
-                            CyberGuard SOC Console
-                    (One-Click Enforcement & Live Audit)
+                 Raw Security Logs (JSON Telemetry)
+                                │
+                          [Ingest Agent]
+                   (Schema Hygiene & Validation)
+                                │
+                          [Detect Agent]
+                     (Pattern & Anomaly Checks)
+                                │
+                         [Classify Agent]
+                    (MITRE ATT&CK & Severity)
+                                │
+                     Severity Routing Decision
+                                │
+             ┌──────────────────┴──────────────────┐
+             ▼                                     ▼
+    [ LOW / MEDIUM Severity ]            [ HIGH / CRITICAL Severity ]
+             │                                     │
+             │                                     ▼
+             │                             [Response Agent]
+             │                       (Containment Script Synthesis)
+             │                       • iptables / Windows Firewall
+             │                       • Host quarantine / Kill commands
+             │                                     │
+             └──────────────────┬──────────────────┘
+                                │
+                                ▼
+                          [Report Agent]
+                   (Forensic Summary & IOC Table)
+                                │
+                                ▼
+                       Interactive SOC Console
+                (Gradio Dashboard & Audit Simulation)
 ```
 
-### Routing Logic
-- **LOW / MEDIUM Severity**: Routine events (e.g., policy deviations, baseline scans) route directly to the **Report Agent** for compliance documentation without disrupting active network infrastructure.
-- **CRITICAL / HIGH Severity**: High-risk attack vectors immediately trigger the **Autonomous Response Agent**, formulating instant containment playbooks (firewall drops, process kills, host isolation) before generating the final report.
+---
+
+## 🤖 Agents & Roles
+
+| Agent | Core Function |
+| :--- | :--- |
+| **📥 Ingest** | Sanitizes schema fields (`timestamp`, `ip`, `event_type`) and filters malformed events. |
+| **🔍 Detect** | Evaluates heuristics and frequency thresholds to flag suspicious activities. |
+| **🏷️ Classify** | Maps events to MITRE ATT&CK techniques and calculates severity ratings. |
+| **⚡ Response** | Generates defensive commands (Linux `iptables`, Windows Firewall, `pkill`, account lock flags). |
+| **📄 Report** | Assembles forensic artifacts, risk summaries, and remediation recommendations. |
 
 ---
 
-## 🤖 The Multi-Agent Ecosystem
+## 🛡️ Sample Containment Playbooks
 
-| Agent | Architecture | Responsibility |
-|:------|:-------------|:---------------|
-| **📥 Ingest Agent** | LangGraph Node | Sanitizes raw telemetry, validates schema integrity (`timestamp`, `ip`, `event_type`), drops malformed records, and computes ingest confidence scores. |
-| **🔍 Detect Agent** | LangGraph Node + Heuristic Tools | Correlates multi-event attack patterns (brute force surges, credential stuffing) and flags behavioral anomalies. |
-| **🏷️ Classify Agent** | LangGraph Node + MITRE Database | Enriches findings with MITRE ATT&CK IDs, calculates composite risk scores (0–100), tags severity, and sets the routing decision flag. |
-| **⚡ Response Agent (SOAR)** | LangGraph Node + Containment Generators | **Core Innovation:** Formulates multi-platform mitigation scripts (Linux iptables, Windows Defender Firewall, Active Directory, AWS IAM/CLI). |
-| **📄 Report Agent** | LangGraph Node + Ollama LLM | Produces an executive incident summary, forensic artifact table, and tactical remediation roadmap. |
-
----
-
-## 🛡️ Autonomous Containment Playbooks
-
-When critical or high threats are verified, the Response Agent generates actionable mitigation playbooks:
-
-| Threat Vector | MITRE ID | Risk | Severity | Automated Containment Action |
-|:---|:---|:---:|:---:|:---|
-| **SSH Brute Force** | `T1110` | 75 | **HIGH** | Ingress IP drop (`iptables -A INPUT -s <IP> -j DROP`), Windows Firewall rule, account lock challenge. |
-| **Credential Stuffing** | `T1110.004` | 85 | **HIGH** | Immediate perimeter blocklist, OAuth token purge, step-up MFA challenge. |
-| **Data Exfiltration** | `T1041` | 95 | **CRITICAL** | Socket severance (`ss -K`), egress network filter, isolation to forensics VLAN. |
-| **Privilege Escalation** | `T1068` | 90 | **HIGH** | Strip sudoer group membership, terminate process tree (`pkill -u <user> -9`). |
-| **Malware Execution** | `T1204` | 98 | **CRITICAL** | Revoke execution permission (`chmod 000`), secure vault quarantine, SHA-256 IOC calculation. |
-| **Compromised Account** | `T1078` | 70 | **HIGH** | Purge active Redis sessions, force password reset flag via identity provider. |
+| Threat Vector | MITRE ID | Risk Score | Severity | Generated Containment Action |
+| :--- | :---: | :---: | :---: | :--- |
+| **SSH Brute Force** | `T1110` | 75 | **HIGH** | Ingress block (`iptables -A INPUT -s <IP> -j DROP`), Windows Firewall rule |
+| **Credential Stuffing** | `T1110.004` | 85 | **HIGH** | Perimeter IP blocklist, account step-up MFA challenge |
+| **Data Exfiltration** | `T1041` | 95 | **CRITICAL** | Socket severance (`ss -K`), egress network filter |
+| **Privilege Escalation** | `T1068` | 90 | **HIGH** | User process tree termination (`pkill -u <user> -9`) |
+| **Malware Execution** | `T1204` | 98 | **CRITICAL** | Revoke execution permissions (`chmod 000`), isolate host |
 
 ---
 
-## 🖥️ Interactive SOC Console (Gradio)
+## 🚀 Quickstart
 
-The CyberGuard AI console provides security analysts with full command and visibility:
+### 1. Prerequisites
+- Python 3.10 or higher
+- *(Optional)* [Ollama](https://ollama.com/) running locally (the application seamlessly falls back to local deterministic templates if Ollama is not active).
 
-1. **Preset Telemetry & Scenario Feed**:
-   - `🎯 Enterprise Multi-Stage APT Attack (20 Events)`: Full attack chain featuring reconnaissance, brute force, lateral escalation, and data exfiltration.
-   - `⚡ SSH Brute Force Campaign`: High-frequency credential access assault demonstrating automated IP blocking.
-   - `🟢 Low-Risk Routine Telemetry`: Demonstrates the LangGraph decision router bypassing the Response Agent directly to reporting.
-   - `📁 Custom JSON Log Upload`: Upload your own enterprise telemetry logs.
-2. **SOAR Containment Console**:
-   - Real-time tactical cards displaying Priority (`P0 - EMERGENCY`, `P1 - IMMEDIATE`), Target, MITRE ATT&CK ID, and copy-ready scripts.
-   - **"⚡ Execute All Containment Directives"** button to simulate live mitigation with a real-time audit terminal.
-3. **Executive Incident Report Tab**:
-   - Full rendered Markdown report with forensic IOCs, MITRE mapping, and executive hardening recommendations.
-4. **Multi-Agent Decision Trace**:
-   - Step-by-step reasoning trace revealing every agent's thought process, confidence score, and decision branches.
-
----
-
-## 🚀 Quickstart & Installation
-
-### Prerequisites
-- Python 3.10+ (Python 3.12 recommended)
-- [Ollama](https://ollama.com) *(Optional for local LLM synthesis — built-in heuristic fallback runs seamlessly even without active models)*
-
-### Setup
+### 2. Setup & Installation
 
 ```bash
-# 1. Clone repository
+# Clone the repository
 git clone https://github.com/soniasalmann/h2-.git
 cd h2-
 
-# 2. Create virtual environment
+# Create and activate virtual environment
 python -m venv .venv
 
 # Windows:
@@ -137,19 +108,19 @@ python -m venv .venv
 # Linux/macOS:
 source .venv/bin/activate
 
-# 3. Install dependencies
+# Install dependencies
 pip install -r requirements.txt
 ```
 
-### Launch the Application
+### 3. Run Application
 
 ```bash
+# Start Gradio SOC Console
 python app.py
 ```
+Open **`http://localhost:7860`** in your browser.
 
-Then open **[http://localhost:7860](http://localhost:7860)** in your browser.
-
-### Run Automated Pipeline Tests
+### 4. Run Tests
 
 ```bash
 python test_pipeline.py
@@ -161,35 +132,24 @@ python test_pipeline.py
 
 ```
 h2-/
-├── app.py                      # Gradio Dark SOC dashboard & execution engine
-├── pipeline.py                 # LangGraph state graph & conditional severity router
-├── requirements.txt            # Project dependencies
-├── test_pipeline.py            # Automated test suite for multi-scenario verification
-├── README.md                   # Project documentation & architecture guide
+├── app.py                  # Gradio SOC console interface
+├── pipeline.py             # LangGraph state graph & conditional router
+├── requirements.txt        # Python dependencies
+├── test_pipeline.py        # Automated test suite
 ├── agents/
-│   ├── __init__.py
-│   ├── state.py                # AgentState TypedDict definition
-│   └── nodes.py                # Ingest, Detect, Classify, Response, and Report agents
+│   ├── state.py            # Shared AgentState TypedDict schema
+│   └── nodes.py            # Ingest, Detect, Classify, Response, and Report agents
 ├── tools/
-│   ├── __init__.py
-│   ├── detection_tools.py      # Heuristic pattern & anomaly detection tools
-│   └── containment_tools.py    # Autonomous SOAR containment script generators
+│   ├── detection_tools.py  # Anomaly detection & heuristics
+│   └── containment_tools.py# Defensive mitigation script generators
 └── data/
-    ├── security_logs.json      # Enterprise 20-event multi-stage APT scenario
-    ├── sample_brute_force.json # Targeted SSH brute force test dataset
-    └── sample_low_med.json     # Low/Med routine telemetry scenario
+    ├── security_logs.json      # Multi-stage attack scenario dataset
+    ├── sample_brute_force.json # SSH brute-force telemetry
+    └── sample_low_med.json     # Low/Medium routine telemetry dataset
 ```
 
 ---
 
-## 🏆 Hackathon Alignment
-
-- **Agentic AI & Multi-Agent Systems**: 5 coordinated agents operating over a shared state graph with conditional routing.
-- **Autonomous Incident Response**: Proactive SOAR containment generation rather than passive alert generation.
-- **Production-Ready & Privacy-Preserving**: Runs completely offline with Ollama or local deterministic engines — zero external API keys or cloud telemetry leakage required.
-- **Standardized Frameworks**: Built on industry-standard MITRE ATT&CK taxonomy and LangGraph workflows.
-
----
-
 ## 📄 License
-MIT License. See [LICENSE](LICENSE) for details.
+
+This project is licensed under the [MIT License](LICENSE).
